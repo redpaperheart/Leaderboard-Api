@@ -27,12 +27,12 @@ class PlayerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function getPlayers()
-    // {
-    //     // ->limit(10)
-    //     $players = Player::orderBy('score', 'DESC')->get();
-    //     return response()->json( $players );
-    // }
+    public function getPlayer($pId)
+    {
+        // ->limit(10)
+        $player = Player::findOrFail($pId);
+        return response()->json( $player );
+    }
 
     /**
      * Display a listing of the resource.
@@ -50,6 +50,36 @@ class PlayerController extends Controller
             $players->limit($amt);
         }
         $players = $players->get();
+        return response()->json( $players );
+    }
+
+    //lb/{lbId}/with/{pId}/{amt}','PlayerController@getPlayersWith
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPlayersWith(Request $request, $lbId, $pId, $amt)
+    {
+        $players = Player::where('leaderboard', '=', $lbId)
+                    ->orderBy('score', 'DESC')
+                    ->orderBy('created_at', 'DESC');
+        if( $amt &&  intval($amt) ){
+            $players->limit($amt);
+        }
+        $players = $players->get();
+        $includes = false;
+        foreach($players as $player){
+          if($player->id == $pId){
+            $includes = true;
+            break;
+          }
+        }
+        if(!$includes){
+          $player = Player::findOrFail($pId);
+          $players[] = $player;
+        }
         return response()->json( $players );
     }
 
@@ -156,7 +186,7 @@ class PlayerController extends Controller
     //     return response()->json('deleted');
     // }
 
-    // public function updateBook(Request $request,$id){
+    // public function updatePlayer(Request $request,$id){
     //     $Book  = Book::find($id);
     //     $Book->title = $request->input('title');
     //     $Book->author = $request->input('author');

@@ -21,27 +21,30 @@
 $app->get('/', function() use ($app) {
     return "RPH-Leaderboard - Lumen RESTful API - " . $app->version();
 });
- 
+
 $app->group(['prefix' => 'api/v1'], function($app)
 {
-    
-    //$app->get('/','PlayerController@getPlayers'); // 
-    //$app->get('lb','PlayerController@getPlayers'); // 
+
+    //$app->get('/','PlayerController@getPlayers'); //
+    //$app->get('lb','PlayerController@getPlayers'); //
 
 	// recalculate all ranks of a specififc leaderboard
 	$app->get('lb/{lb}/calc', 'PlayerController@calculateAllLeaderboardPostions');
 
-	// get a leaderboard
-    $app->get('lb/{id}','PlayerController@getPlayers'); 
+    // get a player
+    $app->get('p/{pId}','PlayerController@getPlayer');
+	  // get a leaderboard
+    $app->get('lb/{id}','PlayerController@getPlayers');
     $app->get('lb/{id}/{amt}','PlayerController@getPlayers');
-    //->where('amt', '[0-9]+');; 
-     
+    //->where('amt', '[0-9]+');;
+
+    $app->get('lb/{lbId}/with/{pId}/{amt}','PlayerController@getPlayersWith');
 
 
     // // create player
     $app->post('lb','PlayerController@createPlayer');
     //$app->get('lb/create','PlayerController@createPlayer');
-      
+
     // $app->put('lb/{id}','BookController@updatePlayer');
     // app->delete('lb/{id}','PlayerController@deletePlayer');
 });
