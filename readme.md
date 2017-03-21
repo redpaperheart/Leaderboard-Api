@@ -26,8 +26,8 @@ Response (array of leaderboard items):
     "created_at":"2017-03-21 03:20:01",
     "updated_at":"2017-03-21 03:20:01"
   }
-]```
-
+]  
+```
 
 ```
 POST URL: http://localhost/api/v1/{leaderboard_name}
@@ -49,7 +49,7 @@ RESPONSE:
   "rank":1,
   "created_at":"2017-03-21 03:20:01",
   "updated_at":"2017-03-21 03:20:01"
-}
+}  
 ```
 ### Loading images:
 server + '/storage/' + image field from the api like:  
